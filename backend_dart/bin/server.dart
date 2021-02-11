@@ -32,7 +32,7 @@ void main(List<String> args) async {
   }
 
   final appRouter = Router();
-  appRouter.add('GET', 'helloWorld', (request) {
+  appRouter.add('GET', '/helloWorld', (request) {
     return shelf.Response.ok(
       jsonEncode({'TAG': 'TAG1', 'TAG2': "SAVIO FERREIRA"}),
     );
@@ -43,17 +43,10 @@ void main(List<String> args) async {
       .addMiddleware(cors())
       .addMiddleware(
           defaultResponseContentType('application/json;charset=utf-8'))
-      .addHandler(_echoRequest);
+      .addHandler(appRouter);
 
   var server = await io.serve(handler, _hostname, port);
   print('Serving at http://${server.address.host}:${server.port}');
-}
-
-shelf.Response _echoRequest(shelf.Request request) {
-  if (request.url.toString() == 'hello') {
-    return shelf.Response.ok('Hello World em Dart no Dart Week!');
-  }
-  return shelf.Response.ok('Request for "${request.url}"');
 }
 
 Future<void> loadConfigApplication() async {
