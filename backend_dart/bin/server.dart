@@ -12,6 +12,7 @@ import 'lib/application/config/database_connection_configuration.dart';
 import 'lib/application/config/service_locator_config.dart';
 import 'lib/application/middlewares/middleswares.dart'
     show cors, defaultResponseContentType;
+import 'lib/application/routers/router_configure.dart';
 
 // For Google Cloud Run, set _hostname to '0.0.0.0'.
 const _hostname = '0.0.0.0';
@@ -32,11 +33,7 @@ void main(List<String> args) async {
   }
 
   final appRouter = Router();
-  appRouter.add('GET', '/helloWorld', (request) {
-    return shelf.Response.ok(
-      jsonEncode({'TAG': 'TAG1', 'TAG2': "SAVIO FERREIRA"}),
-    );
-  });
+  RouterConfigure(appRouter).configure();
 
   var handler = const shelf.Pipeline()
       .addMiddleware(shelf.logRequests())
