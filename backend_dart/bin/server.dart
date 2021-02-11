@@ -7,6 +7,7 @@ import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
 
 import 'lib/application/config/database_connection_configuration.dart';
+import 'lib/application/config/service_locator_config.dart';
 
 // For Google Cloud Run, set _hostname to '0.0.0.0'.
 const _hostname = '0.0.0.0';
@@ -54,4 +55,5 @@ Future<void> loadConfigApplication() async {
   );
 
   GetIt.I.registerSingleton(databaseConfig);
+  configureDependencies();
 }
