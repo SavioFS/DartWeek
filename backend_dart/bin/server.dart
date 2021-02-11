@@ -8,6 +8,7 @@ import 'package:shelf/shelf_io.dart' as io;
 
 import 'lib/application/config/database_connection_configuration.dart';
 import 'lib/application/config/service_locator_config.dart';
+import 'lib/application/middlewares/middleswares.dart';
 
 // For Google Cloud Run, set _hostname to '0.0.0.0'.
 const _hostname = '0.0.0.0';
@@ -29,6 +30,7 @@ void main(List<String> args) async {
 
   var handler = const shelf.Pipeline()
       .addMiddleware(shelf.logRequests())
+      .addMiddleware(cors())
       .addHandler(_echoRequest);
 
   var server = await io.serve(handler, _hostname, port);
