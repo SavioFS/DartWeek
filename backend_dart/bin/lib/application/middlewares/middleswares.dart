@@ -26,3 +26,18 @@ Middleware cors({Map<String, String> headers = _defaultCorsHeader}) {
     };
   };
 }
+
+Middleware defaultResponseContentType(String contentType) {
+  return (Handler innerHandler) {
+    return (Request request) async {
+      final response = await innerHandler(request);
+
+      final mapHeaders = {
+        ...response?.headers ?? {},
+        'content-type': contentType,
+      };
+
+      return response?.change(headers: mapHeaders) ?? Response.notFound('');
+    };
+  };
+}
