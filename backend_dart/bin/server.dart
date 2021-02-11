@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -5,10 +6,12 @@ import 'package:dotenv/dotenv.dart' show load, env;
 import 'package:get_it/get_it.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
+import 'package:shelf_router/shelf_router.dart';
 
 import 'lib/application/config/database_connection_configuration.dart';
 import 'lib/application/config/service_locator_config.dart';
-import 'lib/application/middlewares/middleswares.dart';
+import 'lib/application/middlewares/middleswares.dart'
+    show cors, defaultResponseContentType;
 
 // For Google Cloud Run, set _hostname to '0.0.0.0'.
 const _hostname = '0.0.0.0';
@@ -28,9 +31,18 @@ void main(List<String> args) async {
     return;
   }
 
+  final appRouter = Router();
+  appRouter.add('GET', 'helloWorld', (request) {
+    return shelf.Response.ok(
+      jsonEncode({'TAG': 'TAG1', 'TAG2': "SAVIO FERREIRA"}),
+    );
+  });
+
   var handler = const shelf.Pipeline()
       .addMiddleware(shelf.logRequests())
       .addMiddleware(cors())
+      .addMiddleware(
+          defaultResponseContentType('application/json;charset=utf-8'))
       .addHandler(_echoRequest);
 
   var server = await io.serve(handler, _hostname, port);
