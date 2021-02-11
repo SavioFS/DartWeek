@@ -5,7 +5,11 @@ class DatabaseConnectionConfiguration {
   final String password;
   final String databaseName;
 
-  DatabaseConnectionConfiguration(this.host, this.user, this.port, this.password, this.databaseName);
-
-  
+  DatabaseConnectionConfiguration({
+    this.host,
+    this.user,
+    this.port,
+    this.password,
+    this.databaseName,
+  });
 }
