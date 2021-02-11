@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:dotenv/dotenv.dart';
+import 'package:dotenv/dotenv.dart' show load, env;
+import 'package:get_it/get_it.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as io;
+
+import 'lib/application/config/database_connection_configuration.dart';
 
 // For Google Cloud Run, set _hostname to '0.0.0.0'.
 const _hostname = '0.0.0.0';
@@ -41,5 +44,14 @@ shelf.Response _echoRequest(shelf.Request request) {
 Future<void> loadConfigApplication() async {
   await load();
 
-  
+  final databaseConfig = DatabaseConnectionConfiguration(
+    host: Platform.environment['DATABASE_HOST'] ?? env['databaseHost'],
+    user: Platform.environment['DATABASE_USER'] ?? env['databaseUser'],
+    password:
+        Platform.environment['DATABASE_PASSWORD'] ?? env['databasePassword'],
+    port: Platform.environment['DATABASE_PORT'] ?? env['databasePort'],
+    databaseName: Platform.environment['DATABASE_NAME'] ?? env['databaseName'],
+  );
+
+  GetIt.I.registerSingleton(databaseConfig);
 }
