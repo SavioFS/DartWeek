@@ -1,6 +1,9 @@
+import 'package:injectable/injectable.dart';
 import 'package:mysql1/src/single_connection.dart';
 import '../config/database_connection_configuration.dart';
 import 'idatabaseonnection.dart';
+
+@Injectable(as: IDatabaseConnection)
 
 class DatabaseConnection implements IDatabaseConnection {
 
