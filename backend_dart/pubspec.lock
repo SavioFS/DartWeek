@@ -365,6 +365,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.4"
+  shelf_router_generator:
+    dependency: "direct dev"
+    description:
+      name: shelf_router_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.2+4"
   shelf_web_socket:
     dependency: transitive
     description:
